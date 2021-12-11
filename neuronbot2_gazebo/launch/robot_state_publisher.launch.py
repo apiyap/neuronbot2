@@ -28,7 +28,11 @@ def generate_launch_description():
     nb2_w_top_camera_urdf = os.path.join(
         get_package_share_directory('neuronbot2_description'),
         'urdf',
-        urdf_file_name)        
+        urdf_file_name)
+
+    with open(nb2_urdf, "r") as infp:
+        robot_desc = infp.read()
+
 
     return LaunchDescription([
 
@@ -49,7 +53,7 @@ def generate_launch_description():
             executable='robot_state_publisher',
             name='robot_state_publisher',
             output='screen',
-            parameters=[{'use_sim_time': use_sim_time}],
+            parameters=[{'use_sim_time': use_sim_time, "robot_description": robot_desc}],
             arguments=[nb2_urdf]),
 
         # else if we use front camera:
@@ -59,7 +63,7 @@ def generate_launch_description():
             executable='robot_state_publisher',
             name='robot_state_publisher',
             output='screen',
-            parameters=[{'use_sim_time': use_sim_time}],
+            parameters=[{'use_sim_time': use_sim_time, "robot_description": robot_desc}],
             arguments=[nb2_w_front_camera_urdf]),
 
         # else if we use top camera:
@@ -69,6 +73,6 @@ def generate_launch_description():
             executable='robot_state_publisher',
             name='robot_state_publisher',
             output='screen',
-            parameters=[{'use_sim_time': use_sim_time}],
+            parameters=[{'use_sim_time': use_sim_time , "robot_description": robot_desc}],
             arguments=[nb2_w_top_camera_urdf]),                        
     ])
